@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<input type="button" class="btn btn-dark" onclick="btnclick();">
+
+
+<script>
+    function btnclick() {
+        let ck={{ck}};
+        let myinfo={{myinfo}};
+        if (ck!= 1) {
+            let i = {
+                myinfo: myinfo,
+            };
+            $.ajax({
+                headers: {
+                    'X-CSRFTOKEN': '{{ csrf_token }}',
+                },
+                type: "POST",
+                dataType: "json",
+                url: "{% url 'grid:check' %}",
+                data: JSON.stringify(i),
+    
+                error: function (res) {
+                    console.log("ajax error - ");
+                },
+                success: function (res) {
+                    let ans=res
+                    console.log(ans);
+                    console.log("ajax success - " );
+                },
+                beforeSend: function () {
+                    var width = 0;
+                    var height = 0;
+                    var left = 0;
+                    var top = 0;
+    
+                    width = 50;
+                    height = 50;
+    
+    
+                    top = ($(window).height() - height) / 2 + $(window).scrollTop();
+                    left = ($(window).width() - width) / 2 + $(window).scrollLeft();
+    
+    
+    
+                    if ($("#div_ajax_load_image").length != 0) {
+                        $("#div_ajax_load_image").css({
+                            "top": top + "px",
+                            "left": left + "px"
+                        });
+                        $("#div_ajax_load_image").show();
+                    } else {
+                        $('body').append('<div id="div_ajax_load_image" style="position:absolute; top:' + top +
+                            'px; left:' + left + 'px; width:' + width + 'px; height:' + height +
+                            'px; z-index:9999; background:#f0f0f0; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0; "><img src="{% static '
+                            img / loading.gif ' %}" style="width:50px; height:50px;"></div>'
+                        );
+                    }
+    
+                },
+                complete: function () {
+                    $("#div_ajax_load_image").hide();
+    
+                }
+            });
+        }
+        else {
+            console.log("hi");
+        }
+
+    } 
+        
+</script>
+
+
+
+{% endblock%}
