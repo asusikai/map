@@ -30,7 +30,7 @@ def update(request):  # 개인만 쓸 함수
     update_profile.month = request.POST["month"]
     update_profile.active_sea = request.POST["active_sea"]
     update_profile.time_f = request.POST["time_f"]
-    update_profile.my_info=update_profile.ship+update_profile.ship_name+update_profile.active_sea+update_profile.tonnage+update_profile.month+update_profile.time_f
+    update_profile.my_info=update_profile.ship+" "+update_profile.ship_name+" "+update_profile.active_sea+" "+update_profile.tonnage+" "+update_profile.month+"월 "+update_profile.time_f
     update_profile.type_ck=0
     update_profile.save()
 

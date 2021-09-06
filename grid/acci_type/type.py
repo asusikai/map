@@ -1,10 +1,8 @@
-import io
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
 
-def acci_type(acci):
-        data = pd.read_csv('accident_dataset.csv',encoding='UTF-8')
+def acci_type(acci,data):
         top=31
         my_acci=acci
 
@@ -29,5 +27,3 @@ def acci_type(acci):
                 l+=1
         
         return top_3
-
-        

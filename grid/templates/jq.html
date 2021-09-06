@@ -10,12 +10,11 @@
 
 <script>
     function btnclick() {
-        let ck={{ck}};
-        let myinfo={{myinfo}};
-        if (ck!= 1) {
-            let i = {
-                myinfo: myinfo,
+            
+            var i = {
+                myinfo: "{{my_info}}",
             };
+            console.log(i);
             $.ajax({
                 headers: {
                     'X-CSRFTOKEN': '{{ csrf_token }}',
@@ -26,27 +25,21 @@
                 data: JSON.stringify(i),
     
                 error: function (res) {
-                    console.log("ajax error - ");
+                    console.log("ajax error");
                 },
                 success: function (res) {
-                    let ans=res
+                    var ans=res;
                     console.log(ans);
-                    console.log("ajax success - " );
+                    console.log("ajax success");
                 },
                 beforeSend: function () {
-                    var width = 0;
-                    var height = 0;
+                    var width = 50;
+                    var height = 50;
                     var left = 0;
                     var top = 0;
-    
-                    width = 50;
-                    height = 50;
-    
-    
+
                     top = ($(window).height() - height) / 2 + $(window).scrollTop();
                     left = ($(window).width() - width) / 2 + $(window).scrollLeft();
-    
-    
     
                     if ($("#div_ajax_load_image").length != 0) {
                         $("#div_ajax_load_image").css({
@@ -57,8 +50,7 @@
                     } else {
                         $('body').append('<div id="div_ajax_load_image" style="position:absolute; top:' + top +
                             'px; left:' + left + 'px; width:' + width + 'px; height:' + height +
-                            'px; z-index:9999; background:#f0f0f0; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0; "><img src="{% static '
-                            img / loading.gif ' %}" style="width:50px; height:50px;"></div>'
+                            'px; z-index:9999; background:#f0f0f0; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0; "><img src="{% static 'img/loading.gif' %}" style="width:50px; height:50px;"></div>'
                         );
                     }
     
@@ -68,10 +60,8 @@
     
                 }
             });
-        }
-        else {
-            console.log("hi");
-        }
+        
+        
 
     } 
         
