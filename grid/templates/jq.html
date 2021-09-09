@@ -4,15 +4,41 @@
 {% block content %}
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<div id="acci-type-show">
 
-<input type="button" class="btn btn-dark" onclick="btnclick();">
+<input id="type-btn" type="button" class="btn btn-dark" onclick="btnclick();">
 
+</div>
 
 <script>
+    window.onload=function(){
+        if({{mine.type_ck}}==1){
+            $('#type-btn').val('사고 유형 BEST 3')
+        }
+        else{
+            $('#type-btn').val('사고 유형 분석하기')
+        }
+    }
+
     function btnclick() {
+            var ans;
             
+            if({{mine.type_ck}}){
+                var html="";
+                
+                console.log({{mine.my_type|safe}});
+
+                $("#type-btn").hide();
+                
+                for(var key in {{mine.my_type|safe}}){
+                    html += "<div>"+key+". "+{{mine.my_type|safe}}[key]+"</div>";
+                }
+                $("#acci-type-show").append(html)
+                
+            }
+            else{
             var i = {
-                myinfo: "{{my_info}}",
+                myinfo: "{{mine.my_info}}",
             };
             console.log(i);
             $.ajax({
@@ -28,7 +54,7 @@
                     console.log("ajax error");
                 },
                 success: function (res) {
-                    var ans=res;
+                    ans=res;
                     console.log(ans);
                     console.log("ajax success");
                 },
@@ -56,11 +82,17 @@
     
                 },
                 complete: function () {
+                    var html="";
                     $("#div_ajax_load_image").hide();
-    
+                    console.log(ans);
+                    $("#type-btn").hide();
+                    for(var key in ans){
+                        html += "<div>"+key+". "+ans[key]+"</div>";
+                    }
+                    $("#acci-type-show").append(html)
                 }
             });
-        
+        }
         
 
     } 
