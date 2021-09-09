@@ -1,4 +1,6 @@
 import pandas as pd
+from sqlalchemy.sql.schema import Column
+import numpy as np
 from selenium import webdriver
 import sqlalchemy
 import datetime
@@ -87,6 +89,9 @@ def crawl(id ,hour, db_connection):
             "date": sqlalchemy.types.VARCHAR(45)
             }
 
+    table_df.replace(-999, np.nan)
+    table_df.interpolate(method = 'pad', limit=2)
+
     table_df.to_sql(name='crawl_result', con=db_connection, if_exists='append',index=False, dtype=dtypesql)
 
     driver.close()
@@ -97,6 +102,28 @@ db_connection_str = 'mysql+pymysql://admin:hanium123!@database-1.caua660cnte5.ap
 db_connection = sqlalchemy.create_engine(db_connection_str)
 conn = db_connection.connect()
 
+#make tabel
+
+# meta = sqlalchemy.MetaData()
+
+# make_table = sqlalchemy.Table(
+#     'crawl_result' , meta,
+#     Column('hour',sqlalchemy.types.VARCHAR(10)),
+#     Column('해구번호', sqlalchemy.types.Integer()),
+#     Column('유의파고(m)',sqlalchemy.types.Float()),
+#     Column('파향(deg)',sqlalchemy.types.Float()),
+#     Column('최대파주기(sec)',sqlalchemy.types.Float()),
+#     Column('풍속(m/s)',sqlalchemy.types.Float()),
+#     Column('풍향(deg)',sqlalchemy.types.Integer()),
+#     Column('date',sqlalchemy.types.VARCHAR(45)),
+# )
+
+# meta.create_all(db_connection)
+
+#reset table before update
+
+reset = sqlalchemy.text("TRUNCATE crawl_result")
+conn.execute(reset)
 
 #execute function
 
@@ -104,5 +131,5 @@ hour_list=[h000,h003,h006,h009]
 
 conn.execute("drop table if exists crawl_result")
 
-for i in range(len(hour_list)):
-    crawl(i, hour_list[i] , db_connection)
+#for i in range(len(hour_list)):
+crawl(0, hour_list[0] , db_connection)
