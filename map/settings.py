@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     
     #app
     'grid',
+   
 
     #user
     'users',

@@ -8,3 +8,12 @@ class Trench(models.Model):
     class Meta:
         managed = False
         db_table = 'trench'
+
+class mlResult(models.Model):
+    trench_num = models.IntegerField(primary_key=True)
+    loss = models.FloatField()
+    acc = models.FloatField()
+
+    class Meta:
+        managed : False
+        db_table = 'ml_result'
