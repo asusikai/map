@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<div id="acci-type-show">
+
+<input id="type-btn" type="button" class="btn btn-dark" onclick="btnclick();">
+
+</div>
+
+<script>
+    window.onload=function(){
+        if({{mine.type_ck}}==1){
+            $('#type-btn').val('사고 유형 BEST 3')
+        }
+        else{
+            $('#type-btn').val('사고 유형 분석하기')
+        }
+    }
+
+    function btnclick() {
+            var ans;
+            
+            if({{mine.type_ck}}){
+                var html="";
+                
+                console.log({{mine.my_type|safe}});
+
+                $("#type-btn").hide();
+                
+                for(var key in {{mine.my_type|safe}}){
+                    html += "<div>"+key+". "+{{mine.my_type|safe}}[key]+"</div>";
+                }
+                $("#acci-type-show").append(html)
+                
+            }
+            else{
+            var i = {
+                myinfo: "{{mine.my_info}}",
+            };
+            console.log(i);
+            $.ajax({
+                headers: {
+                    'X-CSRFTOKEN': '{{ csrf_token }}',
+                },
+                type: "POST",
+                dataType: "json",
+                url: "{% url 'grid:check' %}",
+                data: JSON.stringify(i),
+    
+                error: function (res) {
+                    console.log("ajax error");
+                },
+                success: function (res) {
+                    ans=res;
+                    console.log(ans);
+                    console.log("ajax success");
+                },
+                beforeSend: function () {
+                    var width = 50;
+                    var height = 50;
+                    var left = 0;
+                    var top = 0;
+
+                    top = ($(window).height() - height) / 2 + $(window).scrollTop();
+                    left = ($(window).width() - width) / 2 + $(window).scrollLeft();
+    
+                    if ($("#div_ajax_load_image").length != 0) {
+                        $("#div_ajax_load_image").css({
+                            "top": top + "px",
+                            "left": left + "px"
+                        });
+                        $("#div_ajax_load_image").show();
+                    } else {
+                        $('body').append('<div id="div_ajax_load_image" style="position:absolute; top:' + top +
+                            'px; left:' + left + 'px; width:' + width + 'px; height:' + height +
+                            'px; z-index:9999; background:#f0f0f0; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0; "><img src="{% static 'img/loading.gif' %}" style="width:50px; height:50px;"></div>'
+                        );
+                    }
+    
+                },
+                complete: function () {
+                    var html="";
+                    $("#div_ajax_load_image").hide();
+                    console.log(ans);
+                    $("#type-btn").hide();
+                    for(var key in ans){
+                        html += "<div>"+key+". "+ans[key]+"</div>";
+                    }
+                    $("#acci-type-show").append(html)
+                }
+            });
+        }
+        
+
+    } 
+        
+</script>
+
+
+
+{% endblock%}

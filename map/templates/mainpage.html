@@ -47,8 +47,6 @@
 </script>
 
 
-
-
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
@@ -68,6 +66,16 @@
     </div>
   </div>
 </div>
+
+<div>
+  <div>
+    {%if user.is_authenticated%}
+      
+    {%endif%}
+  </div>
+
+</div>
+
 
 
 {%endblock%}
