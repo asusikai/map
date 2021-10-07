@@ -2,48 +2,47 @@
 {%load static%}
 {%block content%}
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
-<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 <script>
+  $(document).ready(function () {
 
-    $(document).ready(function(){
+    function setCookie(name, value, expiredays) {
+      var today = new Date();
+      today.setDate(today.getDate() + expiredays);
+      document.cookie = name + '=' + escape(value) + '; expires=' + today.toGMTString();
+    }
 
-        function setCookie(name, value, expiredays){
-            var today = new Date();
-            today.setDate(today.getDate() + expiredays);
-            document.cookie = name + '=' + escape(value) + '; expires=' + today.toGMTString();
+    function getCookie(name) {
+      var cookie = document.cookie;
+      if (document.cookie != "") {
+        var cookie_array = cookie.split("; ");
+        for (var index in cookie_array) {
+          var cookie_name = cookie_array[index].split("=");
+          if (cookie_name[0] == "mycookie") {
+            return cookie_name[1];
+          }
         }
+      }
+      return;
+    }
 
-        function getCookie(name) {
-            var cookie = document.cookie;
-            if (document.cookie != "") {
-                var cookie_array = cookie.split("; ");
-                for ( var index in cookie_array) {
-                    var cookie_name = cookie_array[index].split("=");
-                    if (cookie_name[0] == "mycookie") {
-                        return cookie_name[1];
-                    }
-                }
-            }
-            return;
-        }
+    $("#modal-today-close").click(function () {
+      $("#myModal").modal("hide");
+      setCookie("mycookie", 'popupEnd', 1);
+    })
 
-        $("#modal-today-close").click(function() {
-            $("#myModal").modal("hide");
-            setCookie("mycookie", 'popupEnd', 1);
-        })
+    var checkCookie = getCookie("mycookie");
 
-        var checkCookie = getCookie("mycookie");
+    if (checkCookie == 'popupEnd') {
+      $("#myModal").modal("hide");
+    } else {
+      $('#myModal').modal("show");
+    }
 
-        if(checkCookie == 'popupEnd') {
-            $("#myModal").modal("hide");
-        } 
-        else {
-            $('#myModal').modal("show");
-        }
-
-    });
+  });
 </script>
 
 
@@ -53,28 +52,60 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5></h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        {% if user.is_authenticated  %}
         <img src="{% static 'img/checklist.jpeg' %}" alt="체크리스트">
+        <!-- {{user.profile.ship}}and user.profile.ship == '기타선' -->
+        {%endif%}
         <img src="{% static 'img/safety.jpeg' %}" alt="해양안전">
       </div>
       <div class="modal-footer">
-        {% comment %} <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> {% endcomment %}
-        <button type="button" class="btn btn-sm btn-outline-dark" id = "modal-today-close">오늘 하루 안보기</button>
+        <button type="button" class="btn btn-sm btn-outline-dark" id="modal-today-close">오늘 하루 안보기</button>
       </div>
     </div>
   </div>
 </div>
 
-<div>
-  <div>
-    {%if user.is_authenticated%}
-      
-    {%endif%}
-  </div>
+<section id="portfolio-details" class="portfolio-details">
+  <div class="container">
+    <div class="row gy-4">
 
-</div>
+      <div class="col-lg-8">
+        <div class="portfolio-details">
+          <div class="map align-items-center">
+
+            map 넣기
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="portfolio-info">
+          <h3>사고 유형 확인</h3>
+          <ul>
+            <li><strong>여</strong> : </li>
+            <li><strong>기</strong> : </li>
+            <li><strong>넣</strong> : </li>
+            <li><strong>어</strong> : </li>
+          </ul>
+        </div>
+        <br>
+        <div class="portfolio-info">
+          <h3>개인 선박 정보</h3>
+          <ul>
+            <li><strong>여</strong> : </li>
+            <li><strong>기</strong> : </li>
+            <li><strong>넣</strong> : </li>
+            <li><strong>어</strong> : </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
 
 
