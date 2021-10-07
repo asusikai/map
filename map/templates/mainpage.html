@@ -55,10 +55,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        {% if user.is_authenticated  %}
+        
         <img src="{% static 'img/checklist.jpeg' %}" alt="체크리스트">
-        <!-- {{user.profile.ship}}and user.profile.ship == '기타선' -->
-        {%endif%}
         <img src="{% static 'img/safety.jpeg' %}" alt="해양안전">
       </div>
       <div class="modal-footer">

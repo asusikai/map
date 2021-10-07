@@ -12,6 +12,7 @@ def mainpage(request):
 
     trenches=Trench.objects.raw('select trench.trench_num, trench.longitude, trench.latitude, ml_result.acc from trench, ml_result where (trench.trench_num = ml_result.trench_num)')
     
+
     return render(request,'mainpage.html',{"trenches":trenches })
    
    
