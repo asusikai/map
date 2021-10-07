@@ -39,9 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    #app
-    'grid',
-   
+    #map
+    'map',   
 
     #user
     'users',
@@ -96,17 +95,26 @@ WSGI_APPLICATION = 'map.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'for_map',
+#         'USER': 'root',
+#         'PASSWORD': 'spiderman1234',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'for_map',
-        'USER': 'root',
-        'PASSWORD': 'spiderman1234',
-        'HOST': 'localhost',
+        'NAME': 'dongjun-test-db',
+        'USER': 'admin',
+        'PASSWORD': 'hanium123!',
+        'HOST': 'database-1.caua660cnte5.ap-northeast-2.rds.amazonaws.com',
         'PORT': '3306',
     }
 }
-
 
 
 # Password validation

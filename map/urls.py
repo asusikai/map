@@ -21,10 +21,13 @@ from .views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('grid/',include("grid.urls")),
     path('accounts/',include("allauth.urls")),
     path('users/',include("users.urls")),
     path('community/',include("community.urls")), #Q&A
     path('caution/',include("caution.urls")),
+    
+    # mainpage
     path('',mainpage,name="mainpage"),
+    path('check/',check,name="check"),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
